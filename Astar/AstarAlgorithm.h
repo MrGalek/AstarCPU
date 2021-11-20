@@ -24,11 +24,12 @@ private:
     int** indexOfNeighbor;//tablica z numerami sasiadow
     int** costOfEdge;//wagi krawedzi do sasadow dla konkretnego node'a
     vector<double> costsToFinish;//tablica z kosztami do celu
+    vector<bool> orVisited;//tablica z statusami czy wierzcholek zostal odwiedziony (domyslnie falsz)
 
     int getIndexOfNodeByName(string name);//zwraca indeks node'a o podanej nazwie 
     double calcHeuristicValue(int x1, int y1); //oblicza heurystyke (jezeli cel jest na poczatku ukladu wspolrzednych)
     double calcHeuristicValue(int x1, int y1, int x2, int y2);//oblicza heurtystyczna wartosc
-    double getIndexOfUnvisitedChipestNode();//zwraca id najtanszego nieodwiedzonego wierzcholka
+    double getIndexOfUnvisitedCheapestNode();//zwraca id najtanszego nieodwiedzonego wierzcholka
 
 };
 

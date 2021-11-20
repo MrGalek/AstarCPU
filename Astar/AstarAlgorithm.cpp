@@ -15,7 +15,6 @@ void AstarAlgorithm::run(string startName, string finishName)
 	double* costsFromStart = new double[numberOfNodes];//tablica z kosztami od startu
 	int* indexOfPreviousNodes = new int[numberOfNodes];//tablica z indeksami poprzednikow danej krawedzi
 	double* heuristic = new double[numberOfNodes];//tablica z heurystykami
-	bool* orVisited = new bool[numberOfNodes];//tablica z statusami czy wierzcholek zostal odwiedziony (domyslnie falsz)
 
 	for (int i = 0; i < numberOfNodes; i++)//poczatkowo te trzy wartosci sa nieznane - maksymalna dostepna wartosc
 	{
@@ -23,6 +22,7 @@ void AstarAlgorithm::run(string startName, string finishName)
 		heuristic[i] = DBL_MAX;
 
 		costsToFinish.push_back(DBL_MAX);
+		orVisited.push_back(false);
 	}
 
 	int indexOfFinishNode = getIndexOfNodeByName(finishName);
@@ -57,7 +57,7 @@ void AstarAlgorithm::run(string startName, string finishName)
 				
 			}
 
-			indexOfCurrentNode = getIndexOfUnvisitedChipestNode();
+			indexOfCurrentNode = getIndexOfUnvisitedCheapestNode();
 			indexOfCurrentNode = indexOfCurrentNode;
 		}
 
@@ -83,8 +83,15 @@ double AstarAlgorithm::calcHeuristicValue(int x1, int y1, int x2, int y2)
 	return sqrt(pow(((double)x2 - (double)x1), 2) + pow(((double)y2 - (double)y1), 2));
 }
 
-double AstarAlgorithm::getIndexOfUnvisitedChipestNode()
+double AstarAlgorithm::getIndexOfUnvisitedCheapestNode()
 {
-	return std::min_element(costsToFinish.begin(), costsToFinish.end()) - costsToFinish.begin();
+	vector<double> tmpCostsToFinish = costsToFinish;
+
+	for (int i = 0; i < numberOfNodes; i++) //szukam najtanszego noda, ale sprawdzam czy jest odwiedzony, jezeli tak to maxuje jego koszt w tymczasowym wektorze 
+	{
+		int indexOfCheapestNode = std::min_element(tmpCostsToFinish.begin(), tmpCostsToFinish.end()) - tmpCostsToFinish.begin();
+		if (orVisited[indexOfCheapestNode]) tmpCostsToFinish[indexOfCheapestNode] = INT_MAX;
+		else return indexOfCheapestNode;
+	}
 }
 
