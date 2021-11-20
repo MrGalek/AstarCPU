@@ -8,9 +8,6 @@
 #include "AstarAlgorithm.h"
 using namespace std;
 
-void importNodes(string fileName, int& numberOfNodes, vector<string>& namesOfNodes, int* heuristic, int** XYs, int* numberOfEdgesPerNode, int** indexOfNeighbor, int** costOfEdge);
-int importNumberOfNodes(ifstream inputFile);
-
 int main(int argc, char* argv[])
 { 
     int numberOfNodes;//liczba wszystkich wierzcholkow
@@ -51,7 +48,7 @@ int main(int argc, char* argv[])
 
             indexOfNeighbor[i] = new int[numberOfEdgesPerNode[i]];//tworze tyle komorek pamieci ile jest sasiadow dla noda
             costOfEdge[i] = new int[numberOfEdgesPerNode[i]];//tworze tyle komorek pamieci ile jest sasiadow dla wag krawedzi od noda
-          
+
             for (int j = 0; j < numberOfEdgesPerNode[i]; j++)
             {
                 inputFile >> inputString;
@@ -64,6 +61,7 @@ int main(int argc, char* argv[])
         ///
 
         AstarAlgorithm astarAlgorithm(numberOfNodes, namesOfNodes, XYs, numberOfEdgesPerNode, indexOfNeighbor, costOfEdge);
+        astarAlgorithm.run(argv[2], argv[3]);
 
         ////WYSWIETLANIE PLIKU WEJSCIOWEGO
         //for (int i = 0; i < numberOfNodes; i++)
@@ -76,60 +74,5 @@ int main(int argc, char* argv[])
         //    cout << "\n";
 
         //}
-    }
-}
-
-int importNumberOfNodes(string fileName)
-{
-    ifstream inputFile(fileName);
-    string inputString;
-
-    if (inputFile.is_open())
-    {
-        inputFile >> inputString;
-        return stoi(inputString);
-    }
-}
-
-void importNodes(string fileName, int& numberOfNodes, vector<string>& namesOfNodes, int* heuristic, int** XYs, int* numberOfEdgesPerNode, int** indexOfNeighbor, int** costOfEdge)
-
-{
-    ifstream inputFile(fileName);
-    string inputString;
-
-    if (inputFile.is_open())
-    {
-        inputFile >> inputString;
-
-        for (int i = 0; i < numberOfNodes; i++)
-        {
-            inputFile >> inputString;
-            namesOfNodes.push_back(inputString);
-            inputFile >> inputString;
-            XYs[i][0] = stoi(inputString);
-            inputFile >> inputString;
-            XYs[i][1] = stoi(inputString);
-            inputFile >> inputString;
-            //heuristic[i] = stoi(inputString);
-            numberOfEdgesPerNode[i] = stoi(inputString);
-            for (int j = 0; j < numberOfEdgesPerNode[i]; j++)
-            {
-                inputFile >> inputString;
-                indexOfNeighbor[i][j] = stoi(inputString);
-                inputFile >> inputString;
-                costOfEdge[i][j] = stoi(inputString);
-            }
-        }
-    }
-}
-
-int importNumberOfNodes(ifstream inputFile)
-{
-    string inputString;
-
-    if (inputFile.is_open())
-    {
-        inputFile >> inputString;
-        return stoi(inputString);
     }
 }
