@@ -26,7 +26,8 @@ void AstarAlgorithm::run(string startName, string finishName)
 	}
 
 	int indexOfFinishNode = getIndexOfNodeByName(finishName);
-	int indexOfCurrentNode = getIndexOfNodeByName(startName);
+	int indexOfStartNode = getIndexOfNodeByName(startName);
+	int indexOfCurrentNode = indexOfStartNode;
 	costsFromStart[indexOfCurrentNode] = 0;//ustawiam koszt od startu na 0 - bo to poczatkowy NODE
 
 	bool finishFlag = false;
@@ -38,7 +39,21 @@ void AstarAlgorithm::run(string startName, string finishName)
 
 		if (indexOfCurrentNode == indexOfFinishNode) //sprawdzam czy aktualnie sprawdzany node ma ten sam indeks co szukany node
 		{
+			int resultCurrentNode = indexOfCurrentNode;
+			string path = namesOfNodes.at(indexOfCurrentNode) + "->";//tworze sciezke od konca tzn od z do a
+			int costOfPath = 0;
+			int costByEdge = 0;
 
+			do
+			{
+				resultCurrentNode = indexOfPreviousNodes[resultCurrentNode]; //biore index poprzednika wyswietlanego noda, ide do tylu
+				path += namesOfNodes.at(resultCurrentNode) + "->";
+
+			} while (resultCurrentNode != indexOfStartNode);
+
+			finishFlag = true;
+
+			cout << path;
 		}
 		else //jezeli nie to sprawdzam dalej
 		{
