@@ -18,13 +18,5 @@
     <ClCompile Include="Astar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AstarAlgorithm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AstarAlgorithm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
